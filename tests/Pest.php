@@ -12,7 +12,7 @@ uses(
 )->in('Feature');
 
 uses(TestCase::class)->in('Unit');
-uses(TestCase::class)->in('Arch');
+uses(TestCase::class)->group('arch')->in('Arch');
 
 function assertGuest(): \Pest\Expectation
 {
