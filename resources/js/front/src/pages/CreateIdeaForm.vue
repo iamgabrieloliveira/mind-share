@@ -19,7 +19,7 @@ async function save() {
     }
 
     store.isLoadingActive = true;
-    await client.post('api/posts/create', form.value);
+    await client.post('api/ideas/create', form.value);
     store.isLoadingActive = false;
 
     toast.success('Idea created sucessfully');

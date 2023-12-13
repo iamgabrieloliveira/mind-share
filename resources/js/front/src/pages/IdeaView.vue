@@ -26,7 +26,7 @@ onMounted(async () => {
    if (!id) throw new Error('Not found');
 
    store.isLoadingActive = true;
-   const response = await client.get(`api/posts/idea/${id}`) as { data: { idea: TIdea } };
+   const response = await client.get(`api/ideas/idea/${id}`) as { data: { idea: TIdea } };
    idea.value = response.data.idea;
    store.isLoadingActive = false;
 });

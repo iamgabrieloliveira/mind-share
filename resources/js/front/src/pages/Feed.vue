@@ -21,7 +21,7 @@ type TLikeEvent = {
     is_liked: boolean,
 }
 
-async function load(url: string = 'api/posts/list') {
+async function load(url: string = 'api/ideas/list') {
     if (isListEnd) {
         return;
     }
