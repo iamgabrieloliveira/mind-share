@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read User $author
  * @method static Builder wasLikedBy(int $userId)
 */
-class Post extends BaseModel
+class Idea extends BaseModel
 {
     use HasFactory;
 
@@ -39,7 +39,7 @@ class Post extends BaseModel
         return $this->hasMany(Like::class);
     }
 
-    public function wasLikedBy(int $userId): bool
+    public function wasLikedBy(string $userId): bool
     {
         return $this
             ->likes()
@@ -59,5 +59,10 @@ class Post extends BaseModel
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function findUserLike(string $userId): Like|null
+    {
+        return $this->likes()->where('user_id', $userId)->first();
     }
 }

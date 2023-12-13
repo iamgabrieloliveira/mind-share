@@ -14,7 +14,7 @@ class Comment extends BaseModel
     protected $fillable = [
         'content',
         'user_id',
-        'post_id',
+        'idea_id',
         'comment_id',
     ];
 
@@ -23,9 +23,9 @@ class Comment extends BaseModel
         return $this->belongsTo(User::class);
     }
 
-    public function post(): BelongsTo
+    public function idea(): BelongsTo
     {
-        return $this->belongsTo(Post::class);
+        return $this->belongsTo(Idea::class);
     }
 
     public function comment(): BelongsTo

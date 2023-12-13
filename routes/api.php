@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\IdeaController;
 use App\Http\Controllers\LikeController;
-use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,14 +28,14 @@ Route::get('me', [AuthController::class, 'me']);
 
 Route::middleware('auth')
     ->group(function () {
-        Route::post('like/{post}', [LikeController::class, 'like']);
-        Route::post('unlike/{post}', [LikeController::class, 'unlike']);
+        Route::post('like/{idea}', [LikeController::class, 'like']);
+        Route::post('unlike/{idea}', [LikeController::class, 'unlike']);
     });
 
-Route::prefix('posts')->group(function () {
-    Route::post('create', [PostController::class, 'create'])->middleware('auth');
-    Route::get('/idea/{post}', [PostController::class, 'get']);
-    Route::get('list', [PostController::class, 'list']);
+Route::prefix('ideas')->group(function () {
+    Route::post('create', [IdeaController::class, 'create'])->middleware('auth');
+    Route::get('/idea/{idea}', [IdeaController::class, 'get']);
+    Route::get('list', [IdeaController::class, 'list']);
 });
 
 Route::prefix('comments')->group(function () {

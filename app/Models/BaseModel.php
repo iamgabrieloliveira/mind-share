@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +18,6 @@ abstract class BaseModel extends Model
 
     protected static function booted(): void
     {
-        static::creating(fn(self $model) => $model->id = (string) Uuid::uuid4());
+        static::creating(static fn(self $model) => $model->id = (string) Uuid::uuid4());
     }
 }

@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Like;
-use App\Models\Post;
+use App\Models\Idea;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         Like::query()->delete();
-        Post::query()->delete();
+        Idea::query()->delete();
         User::query()->delete();
 
         User::factory()->state([
@@ -32,15 +32,15 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ])->create();
 
-        $posts = Post::factory()
+        $idea = Idea::factory()
             ->count(100)
             ->create();
 
-        $posts
-            ->each(fn(Post $post, int $index) => Like::factory()
+        $idea
+            ->each(fn (Idea $idea, int $index) => Like::factory()
                 ->count(fake()->numberBetween(5, 100))
                 ->state([
-                    'post_id' => $post->getKey(),
+                    'idea_id' => $idea->getKey(),
                     'user_id' => User::query()->skip($index)->first()->id,
                 ])->create());
     }

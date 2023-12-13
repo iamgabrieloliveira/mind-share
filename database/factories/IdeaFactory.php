@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
-use App\Models\Post;
 use App\Models\User;
+use App\Models\Idea;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Post>
- */
-class PostFactory extends Factory
+ * @extends Factory<Idea>
+*/
+class IdeaFactory extends Factory
 {
     public function definition(): array
     {

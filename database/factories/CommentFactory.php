@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\Comment;
-use App\Models\Post;
+use App\Models\Idea;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,7 +19,7 @@ class CommentFactory extends Factory
         return [
             'user_id' => User::factory(),
 //            'comment_id' => Comment::factory()->create()->getKey(), Recursion
-            'post_id' => Post::factory(),
+            'idea_id' => Idea::factory(),
             'content' => fake()->randomHtml(),
         ];
     }

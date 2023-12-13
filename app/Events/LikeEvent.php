@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events;
 
 use App\Enums\ChannelEnum;
@@ -15,7 +17,7 @@ class LikeEvent implements ShouldBroadcastNow
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public function __construct(
-        private readonly string $postId,
+        private readonly string $ideaId,
         private readonly string $userId,
         private readonly bool $isLiked = true,
     ) {
@@ -30,7 +32,7 @@ class LikeEvent implements ShouldBroadcastNow
     public function broadCastWith(): array
     {
         return [
-            'post_id' => $this->postId,
+            'idea_id' => $this->ideaId,
             'user_id' => $this->userId,
             'is_liked' => $this->isLiked,
         ];

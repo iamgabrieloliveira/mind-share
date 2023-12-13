@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Like;
-use App\Models\Post;
+use App\Models\Idea;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -16,7 +16,7 @@ class LikeFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'post_id' => Post::factory(),
+            'idea_id' => Idea::factory(),
         ];
     }
 }

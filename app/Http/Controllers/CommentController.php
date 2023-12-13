@@ -5,18 +5,22 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateCommentRequest;
-use App\Models\Comment;
+use App\Services\CommentService;
 use Illuminate\Http\JsonResponse;
 
 class CommentController extends Controller
 {
+    public function __construct(
+        private readonly CommentService $commentsService,
+    ) {
+        //
+    }
+
     public function store(CreateCommentRequest $request): JsonResponse
     {
-        /** @var $comment Comment */
-        $comment = Comment::query()->create(array_merge(
-            $request->validated(),
-            ['user_id' => auth()->id()]
-        ));
+        $dto = $request->toDto();
+
+        $comment = $this->commentsService->create($dto);
 
         return $this->created($comment->id);
     }

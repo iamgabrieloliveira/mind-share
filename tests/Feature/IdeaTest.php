@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Post;
+use App\Models\Idea;
 use App\Models\User;
 use Illuminate\Testing\TestResponse;
 use function Pest\Laravel\actingAs;
@@ -8,26 +8,25 @@ use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\post;
 
-function createPost(array $payload): TestResponse
+function createIdea(array $payload): TestResponse
 {
-    return post('api/posts/create', $payload);
+    return post('api/ideas/create', $payload);
 }
 
-it('authenticated user can create a post for it self', function () {
+it('authenticated user can create a idea for it self', function () {
     // Arrange
     actingAsUser();
     $payload = [
         'title' => fake()->sentence,
         'content' => fake()->text,
-        'author_id' => auth()->id(),
     ];
 
     // Act
-    createPost($payload);
+    createIdea($payload);
 
     // Assert
     assertDatabaseCount('users', 1);
-    assertDatabaseHas('posts', [
+    assertDatabaseHas('ideas', [
         'title' => $payload['title'],
         'content' => $payload['content'],
     ]);
@@ -42,11 +41,11 @@ it('authenticated user can create a post for other user if he is admin', functio
     ];
 
     // Act
-    createPost($payload);
+    createIdea($payload);
 
     // Assert
-    assertDatabaseCount('posts', 1);
-    assertDatabaseHas('posts', [
+    assertDatabaseCount('ideas', 1);
+    assertDatabaseHas('ideas', [
         'title' => $payload['title'],
         'content' => $payload['content'],
         'author_id' => auth()->id(),
@@ -58,7 +57,7 @@ it('not authenticated user cannot create a post', function () {
     assertGuest();
 
     // Act & Assert
-    createPost([
+    createIdea([
         'title' => fake()->sentence,
         'content' => fake()->text,
     ])->assertUnauthorized();
@@ -73,7 +72,7 @@ it('should not create an post without title', function () {
     ];
 
     // Act & Assert
-    createPost($payload)->assertSessionHasErrors('title');
+    createIdea($payload)->assertSessionHasErrors('title');
 });
 
 it('should not create an post without content', function () {
@@ -85,17 +84,17 @@ it('should not create an post without content', function () {
     ];
 
     // Act & Assert
-    createPost($payload)->assertSessionHasErrors('content');
+    createIdea($payload)->assertSessionHasErrors('content');
 });
 
 it('should list posts correctly', function () {
-    Post::factory()->count(5)->create();
+    Idea::factory()->count(5)->create();
 
     $response = actingAs(
         User::factory()->create()
-    )->get('api/posts/list');
+    )->get('api/ideas/list');
 
-    $posts = $response['posts'];
+    $posts = $response['ideas'];
 
     expect($posts)->toHaveCount(5);
 });

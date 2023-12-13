@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Post;
+use App\Models\Idea;
 use App\Models\User;
 use Illuminate\Testing\TestResponse;
 use function Pest\Laravel\actingAs;
@@ -9,70 +9,70 @@ use function Pest\Laravel\assertDatabaseEmpty;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\post;
 
-function like(Post|string $post): TestResponse
+function like(Idea|string $idea): TestResponse
 {
-    $id = $post instanceof Post ? $post->id : $post;
+    $id = $idea instanceof Idea ? $idea->id : $idea;
 
     return post("api/like/$id");
 }
 
-function unlike(Post|string $post): TestResponse
+function unlike(Idea|string $idea): TestResponse
 {
-    $id = $post instanceof Post ? $post->id : $post;
+    $id = $idea instanceof Idea ? $idea->id : $idea;
 
     return post("api/unlike/$id");
 }
 
-it('user can like a post of other user', function () {
+it('user can like a idea of other user', function () {
     // Arrange
     actingAsUser();
-    $post = Post::factory()->create();
+    $idea = Idea::factory()->create();
 
     // Act
-    like($post);
+    like($idea);
 
     // Assert
     assertDatabaseCount('likes', 1);
     assertDatabaseHas('likes', [
         'user_id' => auth()->id(),
-        'post_id' => $post->id,
+        'idea_id' => $idea->id,
     ]);
 });
 
-it('user can like differents posts', function () {
+it('user can like different ideas', function () {
     // Arrange
     $user = User::factory()->create();
-    $posts = Post::factory()->count(5)->create();
+    $ideas = Idea::factory()->count(5)->create();
 
     // Act
     actingAs($user);
-    $posts->each(fn (Post $post) => like($post));
+    $ideas->each(fn (Idea $idea) => like($idea));
 
     // Assert
-    expect($posts->pluck('id'))
+    expect($ideas->pluck('id'))
         ->toEqualCanonicalizing(
-            $user->likes->pluck('post_id')
+            $user->likes->pluck('idea_id')
         );
 });
 
 it('user cannot like the same post twice', function () {
     // Arrange
     $user = actingAsUser();
-    $post = Post::factory()->create();
+    $idea = Idea::factory()->create();
 
     // Act & Assert
-    like($post)->assertCreated();
-    like($post)->assertForbidden();
+    like($idea)->assertCreated();
+    like($idea)->assertForbidden();
 });
 
 it('user can unlike the post', function () {
     // Arrange
     actingAsUser();
-    $post = Post::factory()->create();
+    $idea = Idea::factory()->create();
 
     // Act
-    like($post);
-    unlike($post);
+    like($idea);
+    unlike($idea);
 
     // Assert
     assertDatabaseEmpty('likes');
@@ -81,12 +81,12 @@ it('user can unlike the post', function () {
 it('user cannot unlike the same post twice', function () {
     // Arrange
     actingAsUser();
-    $post = Post::factory()->create();
+    $idea = Idea::factory()->create();
 
     // Act & Assert
-    like($post)->assertCreated();
-    unlike($post)->assertNoContent();
-    unlike($post)
+    like($idea)->assertCreated();
+    unlike($idea)->assertNoContent();
+    unlike($idea)
         ->assertForbidden()
         ->assertSee("You do not like this post yet");
 });

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Idea;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,8 +14,8 @@ return new class extends Migration
     {
         Schema::create('likes', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('post_id');
-            $table->foreign('post_id')->references('id')->on('posts');
+            $table->uuid('idea_id');
+            $table->foreign('idea_id')->references('id')->on('ideas');
             $table->uuid('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

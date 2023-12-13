@@ -18,8 +18,8 @@ return new class extends Migration
             $table->uuid('user_id');
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->uuid('post_id')->nullable();
-            $table->foreign('post_id')->references('id')->on('posts');
+            $table->uuid('idea_id')->nullable();
+            $table->foreign('idea_id')->references('id')->on('ideas');
 
             $table->uuid('comment_id')->nullable();
             $table->foreign('comment_id')->references('id')->on('comments');

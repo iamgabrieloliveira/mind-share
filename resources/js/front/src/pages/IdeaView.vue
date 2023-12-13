@@ -39,7 +39,7 @@ async function saveComment() {
     store.isLoadingActive = true;
     await client.post('api/comments', {
         content: answerContent.value,
-        post_id: router.currentRoute.value.params.id,
+        idea_id: router.currentRoute.value.params.id,
     });
     store.isLoadingActive = false;
 }

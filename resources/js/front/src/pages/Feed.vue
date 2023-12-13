@@ -16,7 +16,7 @@ export interface IIdea {
 }
 
 type TLikeEvent = {
-    post_id: string,
+    idea_id: string,
     user_id: string,
     is_liked: boolean,
 }
@@ -68,7 +68,7 @@ function addPaginationListener() {
 }
 
 function likeEventHandler(event: TLikeEvent) {
-    const post = posts.value.find((post) => post.id === event.post_id);
+    const post = posts.value.find((post) => post.id === event.idea_id);
 
     if (!post) return;
 

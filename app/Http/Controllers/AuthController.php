@@ -6,28 +6,31 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Authentication\LoginRequest;
 use App\Http\Requests\Authentication\RegisterRequest;
-use App\Models\User;
+use App\Services\AuthenticationService;
 use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
+    public function __construct(
+        private readonly AuthenticationService $authenticationService,
+    ) {
+        //
+    }
+
     public function register(RegisterRequest $request): JsonResponse
     {
-        $payload = $request->only('name', 'email', 'password');
+        $dto = $request->toDto();
 
-        /** @var $user User */
-        $user = User::query()->create($payload);
-
-        auth()->login($user);
+        $user = $this->authenticationService->register($dto);
 
         return $this->created($user->id);
     }
 
     public function login(LoginRequest $request): JsonResponse
     {
-        $credentials = $request->only('email', 'password');
+        $dto = $request->toDto();
 
-        $loggedIn = auth()->attempt($credentials);
+        $loggedIn = $this->authenticationService->login($dto);
 
         return $loggedIn
             ? $this->ok()
@@ -43,7 +46,7 @@ class AuthController extends Controller
 
     public function logout(): JsonResponse
     {
-        auth()->logout();
+        $this->authenticationService->logout();
 
         return $this->noContent();
     }

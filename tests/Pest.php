@@ -11,6 +11,9 @@ uses(
     RefreshDatabase::class,
 )->in('Feature');
 
+uses(TestCase::class)->in('Unit');
+uses(TestCase::class)->in('Arch');
+
 function assertGuest(): \Pest\Expectation
 {
     return expect(auth()->check())->toBeFalse();
