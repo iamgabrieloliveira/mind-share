@@ -1,0 +1,25 @@
+version: '3'
+services:
+  api:
+    restart: always
+    build: .
+    volumes:
+      - ./:/var/www/
+
+  nginx:
+    build: ./.docker/nginx
+    restart: always
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - api
+
+  vuejs:
+    build: ./resources/js/front
+    working_dir: /app
+    volumes:
+      - ./resources/js/front:/app
+    ports:
+      - "8080:8080"
